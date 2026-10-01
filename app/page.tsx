@@ -15,7 +15,6 @@ import {
   Smartphone, 
   CheckCircle2,
   ArrowRight,
-  ShoppingCart,
   Check,
   CreditCard,
   Lock,
@@ -24,6 +23,14 @@ import {
   Printer,
   X,
   Trash2
+} from "lucide-react";
+import {
+  Search,
+  Store,
+  UserCircle,
+  ShoppingCart,
+  ChevronDown,
+  Menu
 } from "lucide-react";
 
 interface CartItem {
@@ -36,6 +43,7 @@ interface CartItem {
 export default function BestBuyPlansPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const addToCart = (item: CartItem) => {
     setCart((prev) => [...prev, item]);
@@ -51,57 +59,247 @@ export default function BestBuyPlansPage() {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans relative">
       {/* Top Navigation Bar / Header */}
-      <header className="bg-blue-700 text-white sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-8">
-            <span className="text-2xl font-black tracking-wider bg-yellow-400 text-blue-900 px-2 py-1 rounded">BEST BUY PLANS</span>
-            <div className="hidden md:flex items-center bg-white rounded-md w-96 overflow-hidden">
-              <input 
-                type="text" 
-                placeholder="Search Best Buy Plans" 
-                className="w-full px-4 py-2 text-sm text-black focus:outline-none"
-              />
+      <header className="sticky top-0 z-40 w-full bg-[#0046BE] text-white">
+
+        {/* TOP HEADER */}
+        <div className="border-b border-blue-400/50">
+          <div className="h-[64px] sm:h-[72px] lg:h-[88px] px-3 sm:px-5 lg:px-8 xl:px-12 flex items-center gap-2 sm:gap-4 lg:gap-5">
+
+            {/* LOGO */}
+            <div className="flex-shrink-0 w-[58px] sm:w-[70px] lg:w-[80px]">
+              <div className="relative leading-[0.78] text-[18px] sm:text-[22px] lg:text-[27px] font-black tracking-[-1.5px]">
+                <div>BEST BUY</div>
+                <div>PLANS</div>
+
+                <span className="absolute left-[51px] sm:left-[61px] lg:left-[90px] bottom-0 w-[14px] sm:w-[17px] lg:w-[19px] h-[9px] sm:h-[10px] lg:h-[12px] bg-[#ffe000]">
+                  <span className="absolute -left-[3px] top-[3px] w-[4px] h-[4px] rounded-full bg-[#0046BE]" />
+                </span>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center space-x-6 text-sm">
-            <span className="hidden sm:inline">Your store: Aiea</span>
-            <span className="hidden sm:inline">Account Sign in</span>
-            <button 
-              onClick={() => setIsCartOpen(true)}
-              className="relative flex items-center space-x-2 bg-blue-800 hover:bg-blue-900 px-3 py-2 rounded-lg transition"
+
+            {/* SEARCH */}
+            <div className="flex-1 mx-4 h-[38px] sm:h-[44px] lg:h-[50px] bg-white rounded-[6px] lg:rounded-[9px] overflow-hidden flex items-center min-w-0">
+              <input
+                type="text"
+                placeholder="Search Best Buy"
+                className="flex-1 min-w-0 h-full px-3 sm:px-4 text-[13px] sm:text-[14px] lg:text-[16px] text-gray-700 placeholder:text-gray-500 outline-none"
+              />
+
+              <button
+                type="button"
+                className="h-full w-[40px] sm:w-[48px] lg:w-[54px] flex items-center justify-center border-l border-gray-100 hover:bg-gray-50"
+              >
+                <Search className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-black" />
+              </button>
+            </div>
+
+            {/* STORE - DESKTOP */}
+            <div className="hidden xl:flex items-center gap-2 min-w-[110px]">
+              <Store className="w-7 h-7" />
+
+              <div className="text-[14px] leading-[1.15]">
+                <div>Your store</div>
+                <div className="font-bold text-[16px]">Aiea</div>
+              </div>
+            </div>
+
+            {/* ACCOUNT - DESKTOP */}
+            <button
+              type="button"
+              className="hidden lg:flex items-center gap-2 pl-3 xl:pl-4 border-l border-blue-300/60 min-w-[110px] xl:min-w-[125px]"
             >
-              <ShoppingCart className="w-5 h-5" />
-              <span className="hidden sm:inline">Cart</span>
+              <UserCircle className="w-6 h-6 xl:w-7 xl:h-7" />
+
+              <div className="text-[13px] xl:text-[15px] leading-[1.15] text-left">
+                <div>Account</div>
+                <div className="font-bold text-[14px] xl:text-[16px]">
+                  Sign in
+                </div>
+              </div>
+            </button>
+
+            {/* CART */}
+            <button
+              type="button"
+              onClick={() => setIsCartOpen(true)}
+              className="relative flex items-center justify-center pl-2 sm:pl-3 lg:pl-4 xl:pl-5 border-l border-blue-300/60 h-9 sm:h-10 flex-shrink-0"
+            >
+              <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
+
               {cart.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-yellow-400 text-blue-900 font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center shadow">
+                <span className="absolute -top-2 -right-1 bg-[#ffe000] text-[#0046BE] font-bold text-[10px] sm:text-xs w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center">
                   {cart.length}
                 </span>
               )}
             </button>
+
+            {/* MOBILE HAMBURGER */}
+            <button
+              type="button"
+              aria-label="Toggle menu"
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              className="md:hidden flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-md hover:bg-blue-700 transition"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+
           </div>
         </div>
-        <nav className="bg-blue-800 text-sm hidden md:flex space-x-6 px-6 py-2 overflow-x-auto">
-          <span>Shop</span>
-          <span>Deals</span>
-          <span>Support & Services</span>
-          <span>My Best Buy Memberships</span>
-          <span>Security & Toolkits</span>
-          <span>Credit Cards</span>
-          <span>Gift Cards</span>
+
+        {/* DESKTOP NAV */}
+        <nav className="hidden md:flex h-[64px] lg:h-[76px] border-b border-blue-300/70 items-center px-5 lg:px-8 xl:px-12">
+
+          <div className="flex items-center gap-3">
+
+            <button className="h-[40px] px-5 rounded-full border border-blue-300/80 hover:bg-blue-600 flex items-center gap-2 text-[12px] lg:text-[14px] font-semibold whitespace-nowrap">
+              Shop
+              <ChevronDown className="w-4 h-4" />
+            </button>
+
+            <button className="h-[40px] px-5 rounded-full border border-blue-300/80 hover:bg-blue-600 flex items-center gap-2 text-[12px] lg:text-[14px] font-semibold whitespace-nowrap">
+              Deals
+              <ChevronDown className="w-4 h-4" />
+            </button>
+
+            <button className="h-[40px] px-5 rounded-full border border-blue-300/80 hover:bg-blue-600 flex items-center gap-2 text-[12px] lg:text-[14px] font-semibold whitespace-nowrap">
+              Support & Services
+              <ChevronDown className="w-4 h-4" />
+            </button>
+
+            <button className="h-[40px] px-5 rounded-full border border-blue-300/80 hover:bg-blue-600 flex items-center gap-2 text-[12px] lg:text-[14px] font-semibold whitespace-nowrap">
+              Discover
+              <ChevronDown className="w-4 h-4" />
+            </button>
+
+          </div>
+
+          <div className="ml-auto flex items-center gap-4 lg:gap-6 pl-6 lg:pl-10 text-[12px] lg:text-[14px] whitespace-nowrap">
+
+            <button type="button">Fall Football</button>
+            <button type="button">Top Deals</button>
+            <button type="button">Deal of the Day</button>
+            <button type="button">Gift Ideas</button>
+            <button type="button">My Best Buy Memberships</button>
+            <button type="button">Credit Cards</button>
+            <button type="button">Gift Cards</button>
+
+            <button type="button" className="flex items-center gap-1">
+              More
+              <ChevronDown className="w-4 h-4" />
+            </button>
+
+          </div>
         </nav>
+
+        {/* MOBILE MENU */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-[#003b9f] border-t border-blue-400/50 shadow-xl">
+
+            <div className="px-4 py-4">
+
+              <button
+                type="button"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-700 text-left"
+              >
+                <Store className="w-5 h-5" />
+                <span>
+                  Your store: <strong>Aiea</strong>
+                </span>
+              </button>
+
+              <button
+                type="button"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-700 text-left"
+              >
+                <UserCircle className="w-5 h-5" />
+                <span>
+                  Account <strong>Sign in</strong>
+                </span>
+              </button>
+
+              <div className="h-px bg-blue-400/40 my-2" />
+
+              <button
+                type="button"
+                className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-700"
+              >
+                <span>Shop</span>
+                <ChevronDown className="w-5 h-5" />
+              </button>
+
+              <button
+                type="button"
+                className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-700"
+              >
+                <span>Deals</span>
+                <ChevronDown className="w-5 h-5" />
+              </button>
+
+              <button
+                type="button"
+                className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-700"
+              >
+                <span>Support & Services</span>
+                <ChevronDown className="w-5 h-5" />
+              </button>
+
+              <button
+                type="button"
+                className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-700"
+              >
+                <span>Discover</span>
+                <ChevronDown className="w-5 h-5" />
+              </button>
+
+              <div className="h-px bg-blue-400/40 my-2" />
+
+              <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
+                Fall Football
+              </button>
+
+              <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
+                Top Deals
+              </button>
+
+              <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
+                Deal of the Day
+              </button>
+
+              <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
+                Gift Ideas
+              </button>
+
+              <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
+                My Best Buy Memberships
+              </button>
+
+              <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
+                Credit Cards
+              </button>
+
+              <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
+                Gift Cards
+              </button>
+
+            </div>
+          </div>
+        )}
+
       </header>
 
-
-
       {/* --- SCREENSHOT 148: Hero Section & My Best Buy Total Intro --- */}
-      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-teal-600 text-white py-16 px-6">
+      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-teal-600 text-white px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <div className="inline-block bg-yellow-400 text-blue-900 font-bold text-xs px-2 py-1 rounded mb-4 uppercase tracking-wider">
-              My Best Buy
+              Best Buy Plans
             </div>
             <h1 className="text-4xl lg:text-5xl font-extrabold mb-6 leading-tight">
-              Meet the My Best Buy Memberships™
+              Meet the Best Buy Membership Plans™
             </h1>
             <p className="text-lg mb-4 text-blue-100">
               Plus members get rewards*, exclusive prices and free 2-day shipping*. Total members get everything in Plus, and powerful benefits like protection plans* and 24/7 tech support.
@@ -110,168 +308,193 @@ export default function BestBuyPlansPage() {
               Already a member? <a href="#" className="underline font-semibold">Go to your dashboard.</a>
             </p>
           </div>
-          <div className="relative h-72 lg:h-96 w-full rounded-2xl overflow-hidden shadow-2xl bg-teal-800/40 flex items-center justify-center">
-            <div className="text-center p-6">
-              <div className="w-32 h-32 bg-teal-400/30 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <Smartphone className="w-16 h-16 text-teal-200" />
-              </div>
-              <p className="text-teal-100 font-medium">Member Experience & Tech Support Visual</p>
-            </div>
+          <div className="relative h-72 lg:h-110 w-full rounded-2xl overflow-hidden flex items-end justify-center">
+            <img src="/hero-img.avif" className="h-11/12" alt="" />
           </div>
         </div>
       </section>
 
       {/* Total Card Banner */}
-      <section className="max-w-7xl mx-auto px-6 -mt-8 relative z-10 mb-16">
-        <div className="bg-white border rounded-2xl shadow-xl p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div>
-            <div className="inline-block bg-teal-100 text-teal-800 font-semibold text-xs px-2.5 py-1 rounded-full mb-2">
-              TRUSTED BY MILLIONS OF MEMBERS
-            </div>
-            <div className="flex items-center space-x-3 mb-2">
-              <span className="bg-yellow-400 text-black font-extrabold px-2 py-0.5 rounded text-lg">🏷️</span>
-              <h2 className="text-2xl lg:text-3xl font-black">My Best Buy Total™</h2>
-            </div>
-            <p className="text-gray-600 text-sm">
-              Featuring protection plans*, 24/7 tech support, rewards* and exclusive savings
-            </p>
-          </div>
-          <div className="flex flex-col items-start md:items-end w-full md:w-auto">
-            <div className="flex items-center space-x-1 text-yellow-500 mb-1 text-sm">
-              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-              <span className="text-gray-500 ml-1">(16,729 reviews)</span>
-            </div>
-            <div className="text-3xl font-bold mb-3">
-              $199.99 <span className="text-sm font-normal text-gray-500">/year*</span>
-            </div>
-            <button className="w-full md:w-auto bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-8 py-3 rounded-lg shadow transition">
-              Add to cart
-            </button>
-            <span className="text-xs text-gray-400 mt-2">Auto renews. Cancel anytime. See terms.</span>
-          </div>
+      <section className="px-8 mt-8 relative mb-16">
+    <div className="bg-white rounded-2xl p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      <div>
+        <div className="inline-block bg-teal-100 text-teal-800 font-semibold text-xs px-2.5 py-1 rounded-full mb-2">
+          TRUSTED BY MILLIONS OF MEMBERS
         </div>
+        <div className="flex items-center space-x-3 mb-2">
+          <span className="text-5xl">🏷️</span>
+          <h2 className="text-3xl lg:text-5xl font-semibold">My Best Buy Total™</h2>
+        </div>
+        <p className="text-gray-600 text-sm">
+          Featuring protection plans*, 24/7 tech support, rewards* and exclusive savings
+        </p>
+      </div>
+      <div className="flex flex-col items-start md:items-end w-full md:w-auto">
+        <div className="flex items-center space-x-1 text-yellow-500 mb-1 text-sm">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          <span className="text-gray-500 ml-1">(16,729 reviews)</span>
+        </div>
+        <div className="text-3xl font-bold mb-3">
+          $199.99 <span className="text-sm font-normal text-gray-500">/year*</span>
+        </div>
+        <button className="w-full md:w-auto bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-8 py-3 rounded-lg shadow transition">
+          Add to cart
+        </button>
+        <span className="text-xs text-gray-400 mt-2">Auto renews. Cancel anytime. See terms.</span>
+      </div>
+
+      
+    </div>
+              {/* New Features Grid Section (Matched to Screenshots) */}
+  <section className="max-w-8xl mx-auto px-6 mb-16">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      {/* Card 1: Protection plans */}
+      <div className="bg-white border rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+        <div>
+          <div className="h-28 mb-4 flex items-center justify-center">
+            <img src="/card1sec2.png" alt="Protection plans" className="max-h-full object-contain" />
+          </div>
+          <h3 className="font-bold text-base mb-2">Protection plans, including AppleCare+*</h3>
+          <p className="text-gray-600 text-sm">
+            Up to 24 months of product protection on all eligible Best Buy purchases while your membership is active.
+          </p>
+        </div>
+        <div className="mt-4">
+          <a href="#" className="text-blue-600 hover:underline text-sm font-medium">Learn more</a>
+        </div>
+      </div>
+
+      {/* Card 2: Computer & tablet support */}
+      <div className="bg-white border rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+        <div>
+          <div className="h-28 mb-4 flex items-center justify-center">
+            <img src="/card2sec2.avif" alt="Computer and tablet support" className="max-h-full object-contain" />
+          </div>
+          <h3 className="font-bold text-base mb-2">Computer and tablet support</h3>
+          <p className="text-gray-600 text-sm">
+            Unlimited in-store and remote service for your computer or tablet.
+          </p>
+        </div>
+        <div className="mt-4">
+          <a href="#" className="text-blue-600 hover:underline text-sm font-medium">Learn more</a>
+        </div>
+      </div>
+
+      {/* Card 3: 24/7 VIP tech support */}
+      <div className="bg-white border rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+        <div>
+          <div className="h-28 mb-4 flex items-center justify-center">
+            <img src="/card3sec2.avif" alt="24/7 VIP tech support" className="max-h-full object-contain" />
+          </div>
+          <h3 className="font-bold text-base mb-2">24/7 VIP tech support</h3>
+          <p className="text-gray-600 text-sm">
+            Get help anytime with your tech problems and enjoy priority access to our support lines.
+          </p>
+        </div>
+        <div className="mt-4">
+          <a href="#" className="text-blue-600 hover:underline text-sm font-medium">Learn more</a>
+        </div>
+      </div>
+
+      {/* Card 4: 20% off repairs */}
+      <div className="bg-white border rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+        <div>
+          <div className="h-28 mb-4 flex items-center justify-center">
+            <img src="/card4sec2.avif" alt="20% off repairs" className="max-h-full object-contain" />
+          </div>
+          <h3 className="font-bold text-base mb-2">20% off repairs*</h3>
+          <p className="text-gray-600 text-sm">
+            Save 20% on the cost of labor, no matter where you purchased your device.
+          </p>
+        </div>
+        <div className="mt-4">
+          <a href="#" className="text-blue-600 hover:underline text-sm font-medium">Learn more</a>
+        </div>
+      </div>
+
+      {/* Card 5: 1% back in rewards */}
+      <div className="bg-white border rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+        <div>
+          <div className="h-28 mb-4 flex items-center justify-center">
+            <img src="/card5sec2.avif" alt="1% back in rewards" className="max-h-full object-contain" />
+          </div>
+          <h3 className="font-bold text-base mb-2">1% back* in rewards</h3>
+          <p className="text-gray-600 text-sm">
+            with qualifying Best Buy purchases. Get 6% back* in rewards when you also use a My Best Buy® Credit Card.
+          </p>
+        </div>
+        <div className="mt-4">
+          <a href="#" className="text-blue-600 hover:underline text-sm font-medium">Learn more</a>
+        </div>
+      </div>
+
+      {/* Card 6: Exclusive savings */}
+      <div className="bg-white border rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+        <div>
+          <div className="h-28 mb-4 flex items-center justify-center">
+            <img src="/card6sec2.avif" alt="Exclusive savings" className="max-h-full object-contain" />
+          </div>
+          <h3 className="font-bold text-base mb-2">Exclusive savings</h3>
+          <p className="text-gray-600 text-sm">
+            Member prices on popular products, special access to sales and events.
+          </p>
+        </div>
+        <div className="mt-4">
+          <a href="#" className="text-blue-600 hover:underline text-sm font-medium">Learn more</a>
+        </div>
+      </div>
+
+      {/* Card 7: Extended returns and exchanges */}
+      <div className="bg-white border rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+        <div>
+          <div className="h-28 mb-4 flex items-center justify-center">
+            <img src="/card7sec2.avif" alt="Extended returns and exchanges" className="max-h-full object-contain" />
+          </div>
+          <h3 className="font-bold text-base mb-2">Extended returns and exchanges*</h3>
+          <p className="text-gray-600 text-sm">
+            A 60-day window gives you time to make sure your product is working properly.
+          </p>
+        </div>
+        <div className="mt-4">
+          <span className="text-gray-400 text-sm font-medium cursor-not-allowed">Learn more</span>
+        </div>
+      </div>
+
+      {/* Card 8: Free 2-day shipping */}
+      <div className="bg-white border rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+        <div>
+          <div className="h-28 mb-4 flex items-center justify-center">
+            <img src="/card8sec2.avif" alt="Free 2-day shipping" className="max-h-full object-contain" />
+          </div>
+          <h3 className="font-bold text-base mb-2">Free 2-day shipping*</h3>
+          <p className="text-gray-600 text-sm">
+            Get your tech that much faster, with no extra charge.
+          </p>
+        </div>
+        <div className="mt-4">
+          <span className="text-gray-400 text-sm font-medium cursor-not-allowed">Learn more</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+    
       </section>
 
-      {/* --- SCREENSHOTS 149 & 150: My Best Buy Total Feature Grid --- */}
-      <section className="max-w-7xl mx-auto px-6 mb-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-6 flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">Protection plans, including AppleCare+*</h3>
-              <p className="text-sm text-gray-600 mb-4">Up to 24 months of product protection on all eligible Best Buy purchases while your membership is active.</p>
-            </div>
-            <a href="#" className="text-blue-600 text-sm font-semibold flex items-center hover:underline">
-              Learn more <ArrowRight className="w-4 h-4 ml-1" />
-            </a>
-          </div>
-
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-6 flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <Wrench className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">Computer and tablet support</h3>
-              <p className="text-sm text-gray-600 mb-4">Unlimited in-store and remote service for your computer or tablet.</p>
-            </div>
-            <a href="#" className="text-blue-600 text-sm font-semibold flex items-center hover:underline">
-              Learn more <ArrowRight className="w-4 h-4 ml-1" />
-            </a>
-          </div>
-
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-6 flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <Headset className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">24/7 VIP tech support</h3>
-              <p className="text-sm text-gray-600 mb-4">Get help anytime with your tech problems and enjoy priority access to our support lines.</p>
-            </div>
-            <a href="#" className="text-blue-600 text-sm font-semibold flex items-center hover:underline">
-              Learn more <ArrowRight className="w-4 h-4 ml-1" />
-            </a>
-          </div>
-
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-6 flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <Percent className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">20% off repairs*</h3>
-              <p className="text-sm text-gray-600 mb-4">Save 20% on the cost of labor, no matter where you purchased your device.</p>
-            </div>
-            <a href="#" className="text-blue-600 text-sm font-semibold flex items-center hover:underline">
-              Learn more <ArrowRight className="w-4 h-4 ml-1" />
-            </a>
-          </div>
-
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-6 flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <Trophy className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">1% back* in rewards</h3>
-              <p className="text-sm text-gray-600 mb-4">with qualifying Best Buy purchases. Get 6% back* in rewards when you also use a My Best Buy™ Credit Card.</p>
-            </div>
-            <a href="#" className="text-blue-600 text-sm font-semibold flex items-center hover:underline">
-              Learn more <ArrowRight className="w-4 h-4 ml-1" />
-            </a>
-          </div>
-
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-6 flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <Tag className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">Exclusive savings</h3>
-              <p className="text-sm text-gray-600 mb-4">Member prices on popular products, special access to sales and events.</p>
-            </div>
-            <a href="#" className="text-blue-600 text-sm font-semibold flex items-center hover:underline">
-              Learn more <ArrowRight className="w-4 h-4 ml-1" />
-            </a>
-          </div>
-
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-6 flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <Clock className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">Extended returns and exchanges*</h3>
-              <p className="text-sm text-gray-600 mb-4">A 60-day window gives you time to make sure your product is working properly.</p>
-            </div>
-            <a href="#" className="text-blue-600 text-sm font-semibold flex items-center hover:underline">
-              Learn more <ArrowRight className="w-4 h-4 ml-1" />
-            </a>
-          </div>
-
-          <div className="bg-gray-50 border border-gray-100 rounded-xl p-6 flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <Truck className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">Free 2-day shipping*</h3>
-              <p className="text-sm text-gray-600 mb-4">Get your tech that much faster, with no extra charge.</p>
-            </div>
-            <a href="#" className="text-blue-600 text-sm font-semibold flex items-center hover:underline">
-              Learn more <ArrowRight className="w-4 h-4 ml-1" />
-            </a>
-          </div>
-        </div>
-      </section>
+      
 
       {/* --- SCREENSHOT 151: My Best Buy Plus Plan Section --- */}
-      <section className="max-w-7xl mx-auto px-6 mb-20">
-        <div className="bg-white border rounded-2xl shadow-xl p-8">
+      <section className="px-8 mb-20">
+        <div className="bg-white p-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 border-b pb-8">
             <div>
               <div className="inline-block bg-teal-500 text-white font-semibold text-xs px-2.5 py-1 rounded-full mb-2">
                 EXCLUSIVE PRICES & PERKS
               </div>
               <div className="flex items-center space-x-3 mb-2">
-                <span className="bg-yellow-400 text-black font-extrabold px-2 py-0.5 rounded text-lg">🏷️</span>
-                <h2 className="text-2xl lg:text-3xl font-black">My Best Buy Plus™</h2>
+                <span className="text-5xl">🏷️</span>
+                <h2 className="text-3xl lg:text-5xl font-semibold">Best Buy Plan Plus™</h2>
               </div>
               <p className="text-gray-600 text-sm">
                 Get rewards*, access to deals and events, and extended returns and exchanges*
@@ -322,15 +545,15 @@ export default function BestBuyPlansPage() {
       </section>
 
       {/* --- SCREENSHOTS 152 & 153: Free Membership & Earning Points --- */}
-      <section className="max-w-7xl mx-auto px-6 mb-20">
-        <div className="bg-white border rounded-2xl shadow-xl p-8 mb-12">
+      <section className="mb-20">
+        <div className="bg-white p-8 px-10 mb-12">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
             <div>
               <div className="flex items-center space-x-3 mb-2">
-                <span className="bg-yellow-400 text-black font-extrabold px-2 py-0.5 rounded text-lg">🏷️</span>
-                <h2 className="text-2xl lg:text-3xl font-black">My Best Buy™</h2>
+                <span className="text-5xl">🏷️</span>
+                <h2 className="text-3xl lg:text-5xl font-semibold">My Best Buy™</h2>
               </div>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-sm mt-2">
                 Join for free and get free standard shipping* and personalized shopping
               </p>
             </div>
@@ -349,33 +572,35 @@ export default function BestBuyPlansPage() {
         </div>
 
         {/* Get 6% back banner */}
-        <div className="bg-white border rounded-2xl shadow-xl p-8">
-          <h2 className="text-3xl font-black mb-2 text-blue-900">Get 6% back* in rewards</h2>
-          <p className="text-gray-600 text-sm mb-8 max-w-3xl">
+        <div className="bg-linear-to-br from-[#0049B0] via-[#007DB4] to-[#00b2b8] p-8 py-20">
+          <div className="bg-white max-w-4xl mx-auto border rounded-2xl shadow-xl p-8 py-10 my-10">
+          <h2 className="text-3xl lg:text-5xl font-black mb-2 text-blue-900">Get 6% back* in rewards</h2>
+          <p className="text-gray-600 text-base mb-8 max-w-3xl">
             With a Total or Plus membership and the My Best Buy Credit Card, your points and rewards will add up quickly when you purchase at Best Buy. Also, earn more points during special promotions.
           </p>
 
-          <h3 className="text-xl font-bold mb-6">Shopping at Best Buy</h3>
+          <h3 className="text-xl lg:text-3xl font-bold mb-10">Shopping at Best Buy</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="border rounded-xl p-6 text-center bg-gray-50">
-              <p className="text-xs font-semibold text-gray-500 mb-2">Total or Plus member + My Best Buy® Credit Card</p>
+              <p className="text-base font-semibold text-gray-900 mb-2">Total or Plus member + My Best Buy® Credit Card</p>
               <div className="text-4xl font-black text-blue-600 mb-2">6% back*</div>
-              <p className="text-xs text-gray-500">in rewards</p>
+              <p className="text-xs text-gray-900">in rewards</p>
             </div>
             <div className="border rounded-xl p-6 text-center bg-gray-50">
-              <p className="text-xs font-semibold text-gray-500 mb-2">Use the My Best Buy® Credit Card</p>
+              <p className="text-base font-semibold text-gray-900 mb-2">Use the My Best Buy® Credit Card</p>
               <div className="text-4xl font-black text-blue-600 mb-2">5% back*</div>
-              <p className="text-xs text-gray-500">in rewards</p>
+              <p className="text-xs text-gray-900">in rewards</p>
             </div>
             <div className="border rounded-xl p-6 text-center bg-gray-50">
-              <p className="text-xs font-semibold text-gray-500 mb-2">Shop as a Total or Plus member</p>
+              <p className="text-base font-semibold text-gray-900 mb-2">Shop as a Total or Plus member</p>
               <div className="text-4xl font-black text-blue-600 mb-2">1% back*</div>
-              <p className="text-xs text-gray-500">in rewards</p>
+              <p className="text-xs text-gray-900">in rewards</p>
             </div>
           </div>
           <div className="mt-6 text-center">
             <a href="#" className="text-blue-600 font-semibold text-sm hover:underline">Learn more about earning points and rewards</a>
           </div>
+        </div>
         </div>
       </section>
 
@@ -384,46 +609,75 @@ export default function BestBuyPlansPage() {
         <div className="inline-block bg-teal-500 text-white font-semibold text-xs px-2.5 py-1 rounded-full mb-2">
           TOTAL & PLUS MEMBERS
         </div>
-        <h2 className="text-3xl font-black mb-2">Exclusive access to sales and events</h2>
+        <h2 className="text-3xl lg:text-4xl font-semibold mb-2">Exclusive access to sales and events</h2>
         <p className="text-gray-600 mb-8">Here&apos;s a small sample of what you can expect as a member:</p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="border rounded-xl overflow-hidden shadow-sm bg-white">
-            <div className="h-48 bg-blue-100 flex items-center justify-center">
-              <Smartphone className="w-12 h-12 text-blue-600" />
-            </div>
-            <div className="p-6">
-              <h3 className="font-bold text-lg mb-2">Every day savings</h3>
-              <p className="text-sm text-gray-600">Member-only prices on popular products.</p>
-            </div>
-          </div>
-          <div className="border rounded-xl overflow-hidden shadow-sm bg-white">
-            <div className="h-48 bg-amber-100 flex items-center justify-center">
-              <Gift className="w-12 h-12 text-amber-600" />
-            </div>
-            <div className="p-6">
-              <h3 className="font-bold text-lg mb-2">Member Picks</h3>
-              <p className="text-sm text-gray-600">Discover deeply discounted items in your Best Buy app.</p>
-            </div>
-          </div>
-          <div className="border rounded-xl overflow-hidden shadow-sm bg-white">
-            <div className="h-48 bg-purple-100 flex items-center justify-center">
-              <span className="text-purple-700 font-bold text-xl">Discord NITRO</span>
-            </div>
-            <div className="p-6">
-              <h3 className="font-bold text-lg mb-2">Subscription offers</h3>
-              <p className="text-sm text-gray-600">Regular savings delivered to your member dashboard.</p>
-            </div>
-          </div>
-        </div>
+  {/* Card 1 */}
+  <div className="rounded-xl overflow-hidden shadow-sm bg-white">
+    <div className="h-60 bg-blue-100">
+      <img
+        src="/card1sec5.avif"
+        alt=""
+        className="w-full h-full object-cover"
+      />
+    </div>
+
+    <div className="p-6">
+      <h3 className="font-bold text-lg mb-2">Every day savings</h3>
+      <p className="text-sm text-gray-600">
+        Member-only prices on popular products.
+      </p>
+    </div>
+  </div>
+
+  {/* Card 2 */}
+  <div className="rounded-xl overflow-hidden shadow-sm bg-white">
+    <div className="h-60 bg-blue-100">
+      <img
+        src="/card2sec5.avif"
+        alt=""
+        className="w-full h-full object-cover"
+      />
+    </div>
+
+    <div className="p-6">
+      <h3 className="font-bold text-lg mb-2">Member Picks</h3>
+      <p className="text-sm text-gray-600">
+        Discover deeply discounted items in your Best Buy app.
+      </p>
+    </div>
+  </div>
+
+  {/* Card 3 */}
+  <div className="rounded-xl overflow-hidden shadow-sm bg-white">
+    <div className="h-60 bg-blue-100">
+      <img
+        src="/card3sec5.avif"
+        alt=""
+        className="w-full h-full object-cover"
+      />
+    </div>
+
+    <div className="p-6">
+      <h3 className="font-bold text-lg mb-2">Subscription offers</h3>
+      <p className="text-sm text-gray-600">
+        Regular savings delivered to your member dashboard.
+      </p>
+    </div>
+  </div>
+</div>
       </section>
 
       {/* --- SCREENSHOT 155: Don't miss out on exclusive deals --- */}
       <section className="max-w-7xl mx-auto px-6 mb-20">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <div className="inline-block bg-yellow-400 text-black font-extrabold px-2 py-0.5 rounded text-xs mb-2">🏷️ My Best Buy Plus & Total</div>
-            <h2 className="text-3xl font-black">Don&apos;t miss out on exclusive deals.</h2>
+            <div className="flex items-center space-x-3 mb-6">
+                <span className="text-5xl">🏷️</span>
+                <h2 className="text-3xl lg:text-5xl font-semibold">Buy My Best Plus Total</h2>
+              </div>
+            <h2 className="text-2xl font-semibold">Don&apos;t miss out on exclusive deals.</h2>
             <p className="text-gray-600 text-sm mt-1">Unlock even more exclusive member deals when you become a My Best Buy Plus™ or My Best Buy Total™ member.</p>
           </div>
           <a href="#" className="text-blue-600 font-semibold text-sm hidden md:block hover:underline">Discover more exclusive deals</a>
@@ -432,8 +686,8 @@ export default function BestBuyPlansPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
             <div>
-              <div className="h-40 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
-                <span className="text-gray-400 font-semibold">[Headphones Image]</span>
+              <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
+                <img src="/product1.avif" className="" alt="" />
               </div>
               <p className="text-sm text-gray-700 mb-3 font-medium">Turtle Beach - Stealth 700 Gen 3 Wireless Over-Ear Gaming Headset for XBOX Series X/S, XBOX One, PC,...</p>
               <div className="text-2xl font-bold mb-1">$159.99</div>
@@ -447,8 +701,8 @@ export default function BestBuyPlansPage() {
 
           <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
             <div>
-              <div className="h-40 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
-                <span className="text-gray-400 font-semibold">[Mac Mini Image]</span>
+              <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
+                <img src="/product2.webp" className="" alt="" />
               </div>
               <p className="text-sm text-gray-700 mb-3 font-medium">Mac mini Desktop Apple M4 chip with 16GB Memory and 256GB SSD - Silver</p>
               <div className="text-2xl font-bold mb-1">$899.00</div>
@@ -461,8 +715,8 @@ export default function BestBuyPlansPage() {
 
           <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
             <div>
-              <div className="h-40 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
-                <span className="text-gray-400 font-semibold">[Mac Mini Image]</span>
+              <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
+                <img src="/product3.avif" className="" alt="" />
               </div>
               <p className="text-sm text-gray-700 mb-3 font-medium">Mac mini Desktop Apple M4 chip with 16GB Memory and 512GB SSD - Silver</p>
               <div className="text-2xl font-bold mb-1">$1,099.00</div>
@@ -504,10 +758,12 @@ export default function BestBuyPlansPage() {
               <h3 className="font-bold text-base mb-2">Here for you when accidents happen</h3>
               <p className="text-xs text-blue-100">Accidental damage coverage for drops, spills and cracks on portable products.</p>
             </div>
-            <div className="bg-white/10 backdrop-blur border border-white/20 rounded-xl p-6">
-              <div className="text-red-400 font-bold text-2xl mb-4"></div>
+            <div className="bg-white text-black! backdrop-blur border border-white/20 rounded-xl p-6">
+              <div className="h-10 w-10 mb-4">
+                <img src="/apple.avif" alt="" />
+              </div>
               <h3 className="font-bold text-base mb-2">Applecare+</h3>
-              <p className="text-xs text-blue-100">AppleCare+ is included for Apple purchases, so you get unlimited Apple-certified repairs for accidents, battery replacement service, 24/7 priority support, and more.</p>
+              <p className="text-xs text-black">AppleCare+ is included for Apple purchases, so you get unlimited Apple-certified repairs for accidents, battery replacement service, 24/7 priority support, and more.</p>
             </div>
           </div>
           <a href="#" className="text-yellow-400 font-semibold text-sm hover:underline">Learn more about protection plans</a>
@@ -674,9 +930,8 @@ export default function BestBuyPlansPage() {
               <div>
                 <div className="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded w-max mb-2">MAXIMIZE REWARDS</div>
                 <h3 className="font-black text-xl mb-4">My Best Buy® Credit Card</h3>
-                <div className="h-16 bg-gradient-to-r from-teal-600 to-blue-800 rounded-lg mb-4 flex items-center justify-between px-4 text-white text-xs font-bold shadow-inner">
-                  <CreditCard className="w-6 h-6" />
-                  <span>VISA / citi</span>
+                <div className="h-30 flex items-center justify-between px-4 text-white text-xs font-bold shadow-inner mb-5">
+                  <img src="/cards.avif" alt="" />
                 </div>
                 
                 <ul className="space-y-4 text-xs text-gray-700 mb-6">
