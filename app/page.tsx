@@ -9,28 +9,28 @@ import {
   Trophy,
   Tag,
   Truck,
-  Gift,
+  UserCheck,
   Clock,
   Home,
   Smartphone,
   CheckCircle2,
-  ArrowRight,
   Check,
-  CreditCard,
+  Laptop,
   Lock,
   Cpu,
   RefreshCw,
   Printer,
   X,
   Trash2,
-} from "lucide-react";
-import {
-  Search,
+   Search,
   Store,
   UserCircle,
   ShoppingCart,
   ChevronDown,
   Menu,
+  Disc,
+  Sliders,
+  Activity,
 } from "lucide-react";
 
 interface CartItem {
@@ -49,7 +49,8 @@ export default function BestBuyPlansPage() {
   const [userEmail, setUserEmail] = useState("");
   const [savedUserName, setSavedUserName] = useState("");
   const [isStoreOpen, setIsStoreOpen] = useState(false);
-const [selectedStore, setSelectedStore] = useState("");
+  const [selectedStore, setSelectedStore] = useState("");
+  const [userPhone, setUserPhone] = useState("");
 
 const usStates = [
   "Alabama",
@@ -140,9 +141,9 @@ const handleStoreSelect = (state: string) => {
       {/* LOGO */}
       <div className="flex-shrink-0 w-[58px] sm:w-[70px] lg:w-[80px]">
         <div className="relative leading-[0.78] text-[18px] sm:text-[22px] lg:text-[27px] font-black tracking-[-1.5px]">
-          <div>BEST BUY</div>
-          <div>PLANS</div>
-          <span className="absolute left-[51px] sm:left-[61px] lg:left-[90px] bottom-0 w-[14px] sm:w-[17px] lg:w-[19px] h-[9px] sm:h-[10px] lg:h-[12px] bg-[#ffe000]">
+          <div>BEST</div>
+          <div className="mt-0.5">BUY</div>
+          <span className="absolute left-[51px] sm:left-[61px] lg:left-[55px] bottom-0 w-[14px] sm:w-[17px] lg:w-[19px] h-[9px] sm:h-[10px] lg:h-[12px] bg-[#ffe000]">
             <span className="absolute -left-[3px] top-[3px] w-[4px] h-[4px] rounded-full bg-[#0046BE]" />
           </span>
         </div>
@@ -437,76 +438,96 @@ const handleStoreSelect = (state: string) => {
 
   {/* SIGN IN POPUP */}
   {isSignInOpen && (
+  <div
+    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 px-4"
+    onClick={() => setIsSignInOpen(false)}
+  >
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 px-4"
-      onClick={() => setIsSignInOpen(false)}
+      className="w-full max-w-[400px] rounded-2xl bg-white p-6 sm:p-7 shadow-2xl text-gray-900"
+      onClick={(e) => e.stopPropagation()}
     >
-      <div
-        className="w-full max-w-[400px] rounded-2xl bg-white p-6 sm:p-7 shadow-2xl text-gray-900"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* POPUP HEADER */}
-        <div className="flex items-start justify-between mb-6">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-              Sign in
-            </h2>
-            <p className="mt-1 text-sm text-gray-500">
-              Enter your details to continue.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setIsSignInOpen(false)}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition"
-          >
-            <X className="w-5 h-5" />
-          </button>
+      {/* POPUP HEADER */}
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+            Sign in
+          </h2>
+          <p className="mt-1 text-sm text-gray-500">
+            Enter your details to continue.
+          </p>
         </div>
 
-        {/* NAME */}
-        <div className="mb-4">
-          <label className="mb-1.5 block text-sm font-semibold text-gray-700">
-            Name
-          </label>
-
-          <input
-            type="text"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            placeholder="Enter your name"
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[#0046BE] focus:ring-2 focus:ring-blue-100"
-          />
-        </div>
-
-        {/* EMAIL */}
-        <div className="mb-6">
-          <label className="mb-1.5 block text-sm font-semibold text-gray-700">
-            Email ID
-          </label>
-
-          <input
-            type="email"
-            value={userEmail}
-            onChange={(e) => setUserEmail(e.target.value)}
-            placeholder="Enter your email"
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[#0046BE] focus:ring-2 focus:ring-blue-100"
-          />
-        </div>
-
-        {/* CONTINUE */}
         <button
           type="button"
-          onClick={handleSignIn}
-          disabled={!userName.trim() || !userEmail.trim()}
-          className="w-full rounded-lg bg-[#0046BE] px-4 py-3 font-bold text-white transition hover:bg-[#003b9f] disabled:cursor-not-allowed disabled:opacity-50"
+          onClick={() => setIsSignInOpen(false)}
+          className="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition"
         >
-          Continue
+          <X className="w-5 h-5" />
         </button>
       </div>
+
+      {/* NAME */}
+      <div className="mb-4">
+        <label className="mb-1.5 block text-sm font-semibold text-gray-700">
+          Name
+        </label>
+
+        <input
+          type="text"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder="Enter your name"
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[#0046BE] focus:ring-2 focus:ring-blue-100"
+        />
+      </div>
+
+      {/* EMAIL */}
+      <div className="mb-4">
+        <label className="mb-1.5 block text-sm font-semibold text-gray-700">
+          Email ID
+        </label>
+
+        <input
+          type="email"
+          value={userEmail}
+          onChange={(e) => setUserEmail(e.target.value)}
+          placeholder="Enter your email"
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[#0046BE] focus:ring-2 focus:ring-blue-100"
+        />
+      </div>
+
+      {/* PHONE NUMBER */}
+      <div className="mb-6">
+        <label className="mb-1.5 block text-sm font-semibold text-gray-700">
+          Phone Number
+        </label>
+
+        <input
+          type="tel"
+          value={userPhone}
+          onChange={(e) => setUserPhone(e.target.value)}
+          placeholder="Enter your phone number"
+          maxLength={15}
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[#0046BE] focus:ring-2 focus:ring-blue-100"
+        />
+      </div>
+
+      {/* CONTINUE */}
+      <button
+        type="button"
+        onClick={handleSignIn}
+        disabled={
+          !userName.trim() ||
+          !userEmail.trim() ||
+          !userPhone.trim()
+        }
+        className="w-full rounded-lg bg-[#0046BE] px-4 py-3 font-bold text-white transition hover:bg-[#003b9f] disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        Continue
+      </button>
     </div>
-  )}
+  </div>
+)}
 </header>
 
       {/* --- SCREENSHOT 148: Hero Section & My Best Buy Total Intro --- */}
@@ -1517,196 +1538,366 @@ const handleStoreSelect = (state: string) => {
 
       {/* Security & Setup Toolkits Section */}
       <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="text-center mb-12">
-          <div className="inline-block bg-teal-100 text-teal-800 font-semibold text-xs px-3 py-1 rounded-full mb-5">
-            SPECIALIZED TOOLKITS
+      <div className="text-center mb-12">
+        <div className="inline-block bg-teal-100 text-teal-800 font-semibold text-xs px-3 py-1 rounded-full mb-5">
+          SPECIALIZED TOOLKITS
+        </div>
+        <h2 className="text-3xl lg:text-5xl font-semibold mb-3">
+          Security & Setup Toolkits
+        </h2>
+        <p className="text-gray-600">
+          Enhance your digital infrastructure with professional licenses and
+          optimization suites.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Toolkit 1 */}
+        <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <Lock className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">
+              Private IP & License Key Security
+            </h3>
+            <div className="text-2xl font-bold mb-4">
+              $399.99{" "}
+              <span className="text-xs font-normal text-gray-500">
+                / Year
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-6">
+              Advanced protection for your privacy networks, secure IP
+              routing, and licensed asset verification.
+            </p>
           </div>
-          <h2 className="text-3xl lg:text-5xl font-semibold mb-3">
-            Security & Setup Toolkits
-          </h2>
-          <p className="text-gray-600">
-            Enhance your digital infrastructure with professional licenses and
-            optimization suites.
-          </p>
+          <button
+            onClick={() =>
+              addToCart({
+                id: "toolkit-ip",
+                name: "Private IP & License Key Security",
+                price: 399.99,
+                period: "/Year",
+              })
+            }
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
+          >
+            Add to cart
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Toolkit 1 */}
-          <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <Lock className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">
-                Private IP & License Key Security
-              </h3>
-              <div className="text-2xl font-bold mb-4">
-                $399.99{" "}
-                <span className="text-xs font-normal text-gray-500">
-                  / Year
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 mb-6">
-                Advanced protection for your privacy networks, secure IP
-                routing, and licensed asset verification.
-              </p>
+        {/* Toolkit 2 */}
+        <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <Cpu className="w-6 h-6" />
             </div>
-            <button
-              onClick={() =>
-                addToCart({
-                  id: "toolkit-ip",
-                  name: "Private IP & License Key Security",
-                  price: 399.99,
-                  period: "/Year",
-                })
-              }
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
-            >
-              Add to cart
-            </button>
-          </div>
-
-          {/* Toolkit 2 */}
-          <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <Cpu className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">
-                Windows OS License & Setup Toolkit
-              </h3>
-              <div className="text-2xl font-bold mb-4">
-                $149.99{" "}
-                <span className="text-xs font-normal text-gray-500">
-                  / One Time
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 mb-6">
-                Complete configuration package for clean Windows OS activation,
-                deployment, and personalized setup.
-              </p>
+            <h3 className="font-bold text-lg mb-2">
+              Windows OS License & Setup Toolkit
+            </h3>
+            <div className="text-2xl font-bold mb-4">
+              $149.99{" "}
+              <span className="text-xs font-normal text-gray-500">
+                / One Time
+              </span>
             </div>
-            <button
-              onClick={() =>
-                addToCart({
-                  id: "toolkit-win",
-                  name: "Windows OS License & Setup Toolkit",
-                  price: 149.99,
-                  period: "/One Time",
-                })
-              }
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
-            >
-              Add to cart
-            </button>
+            <p className="text-sm text-gray-600 mb-6">
+              Complete configuration package for clean Windows OS activation,
+              deployment, and personalized setup.
+            </p>
           </div>
-
-          {/* Toolkit 3 */}
-          <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <RefreshCw className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">
-                Driver & Module Update Toolkit
-              </h3>
-              <div className="text-2xl font-bold mb-4">
-                $99.99{" "}
-                <span className="text-xs font-normal text-gray-500">
-                  / One Time
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 mb-6">
-                Automated utility suite to detect, download, and configure
-                stable driver packages and system modules.
-              </p>
-            </div>
-            <button
-              onClick={() =>
-                addToCart({
-                  id: "toolkit-driver",
-                  name: "Driver & Module Update Toolkit",
-                  price: 99.99,
-                  period: "/One Time",
-                })
-              }
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
-            >
-              Add to cart
-            </button>
-          </div>
-
-          {/* Toolkit 4 */}
-          <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <Wrench className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">
-                PC Optimization Toolkit
-              </h3>
-              <div className="text-2xl font-bold mb-4">
-                $129.99{" "}
-                <span className="text-xs font-normal text-gray-500">
-                  / One Time
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 mb-6">
-                Speed up performance, clear redundant processes, optimize
-                startup times, and tune system memory.
-              </p>
-            </div>
-            <button
-              onClick={() =>
-                addToCart({
-                  id: "toolkit-pc",
-                  name: "PC Optimization Toolkit",
-                  price: 129.99,
-                  period: "/One Time",
-                })
-              }
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
-            >
-              Add to cart
-            </button>
-          </div>
-
-          {/* Toolkit 5 */}
-          <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <Printer className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-lg mb-2">
-                Printer Setup & Configuration
-              </h3>
-              <div className="text-2xl font-bold mb-4">
-                $79.99{" "}
-                <span className="text-xs font-normal text-gray-500">
-                  / One Time
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 mb-6">
-                Expert diagnostic troubleshooting, wireless pairing, network
-                printing setup, and driver installation.
-              </p>
-            </div>
-            <button
-              onClick={() =>
-                addToCart({
-                  id: "toolkit-printer",
-                  name: "Printer Setup & Configuration",
-                  price: 79.99,
-                  period: "/One Time",
-                })
-              }
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
-            >
-              Add to cart
-            </button>
-          </div>
+          <button
+            onClick={() =>
+              addToCart({
+                id: "toolkit-win",
+                name: "Windows OS License & Setup Toolkit",
+                price: 149.99,
+                period: "/One Time",
+              })
+            }
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
+          >
+            Add to cart
+          </button>
         </div>
-      </section>
+
+        {/* Toolkit 3 */}
+        <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <RefreshCw className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">
+              Driver & Module Update Toolkit
+            </h3>
+            <div className="text-2xl font-bold mb-4">
+              $99.99{" "}
+              <span className="text-xs font-normal text-gray-500">
+                / One Time
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-6">
+              Automated utility suite to detect, download, and configure
+              stable driver packages and system modules.
+            </p>
+          </div>
+          <button
+            onClick={() =>
+              addToCart({
+                id: "toolkit-driver",
+                name: "Driver & Module Update Toolkit",
+                price: 99.99,
+                period: "/One Time",
+              })
+            }
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
+          >
+            Add to cart
+          </button>
+        </div>
+
+        {/* Toolkit 4 */}
+        <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <Wrench className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">
+              PC Optimization Toolkit
+            </h3>
+            <div className="text-2xl font-bold mb-4">
+              $129.99{" "}
+              <span className="text-xs font-normal text-gray-500">
+                / One Time
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-6">
+              Speed up performance, clear redundant processes, optimize
+              startup times, and tune system memory.
+            </p>
+          </div>
+          <button
+            onClick={() =>
+              addToCart({
+                id: "toolkit-pc",
+                name: "PC Optimization Toolkit",
+                price: 129.99,
+                period: "/One Time",
+              })
+            }
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
+          >
+            Add to cart
+          </button>
+        </div>
+
+        {/* Toolkit 5 */}
+        <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <Printer className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">
+              Printer Setup & Configuration
+            </h3>
+            <div className="text-2xl font-bold mb-4">
+              $79.99{" "}
+              <span className="text-xs font-normal text-gray-500">
+                / One Time
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-6">
+              Expert diagnostic troubleshooting, wireless pairing, network
+              printing setup, and driver installation.
+            </p>
+          </div>
+          <button
+            onClick={() =>
+              addToCart({
+                id: "toolkit-printer",
+                name: "Printer Setup & Configuration",
+                price: 79.99,
+                period: "/One Time",
+              })
+            }
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
+          >
+            Add to cart
+          </button>
+        </div>
+
+        {/* Toolkit 6 (Mac OS) */}
+        <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <Laptop className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">
+              Mac OS License & Setup Toolkit
+            </h3>
+            <div className="text-2xl font-bold mb-4">
+              $149.99{" "}
+              <span className="text-xs font-normal text-gray-500">
+                / One Time
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-6">
+              Genuine activation key and complete configuration package for seamless macOS deployment.
+            </p>
+          </div>
+          <button
+            onClick={() =>
+              addToCart({
+                id: "toolkit-macos",
+                name: "Mac OS License & Setup Toolkit",
+                price: 149.99,
+                period: "/One Time",
+              })
+            }
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
+          >
+            Add to cart
+          </button>
+        </div>
+
+        {/* Toolkit 7 (Technician Support) */}
+        <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <UserCheck className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">
+              One Time Technician Support & Deployment Fee
+            </h3>
+            <div className="text-2xl font-bold mb-4">
+              $129.99{" "}
+              <span className="text-xs font-normal text-gray-500">
+                / One Time
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-6">
+              Professional remote diagnostics, full software deployment, and secure environment setup by a certified engineer.
+            </p>
+          </div>
+          <button
+            onClick={() =>
+              addToCart({
+                id: "tech-fee-one-time",
+                name: "One Time Technician Support & Deployment Fee",
+                price: 129.99,
+                period: "/One Time",
+              })
+            }
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
+          >
+            Add to cart
+          </button>
+        </div>
+
+        {/* Toolkit 8 (One Time Diagnostic) */}
+        <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <Activity className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">
+              One Time Diagnostic
+            </h3>
+            <div className="text-2xl font-bold mb-4">
+              $39.99{" "}
+              <span className="text-xs font-normal text-gray-500">
+                / One Time
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-6">
+              Thorough system health check and component analysis to quickly identify hardware and software issues.
+            </p>
+          </div>
+          <button
+            onClick={() =>
+              addToCart({
+                id: "toolkit-diagnostic",
+                name: "One Time Diagnostic",
+                price: 39.99,
+                period: "/One Time",
+              })
+            }
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
+          >
+            Add to cart
+          </button>
+        </div>
+
+        {/* Toolkit 9 (Official Windows 10 Installation) */}
+        <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <Disc className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">
+              Official Windows 10 Installation
+            </h3>
+            <div className="text-2xl font-bold mb-4">
+              $109.99{" "}
+              <span className="text-xs font-normal text-gray-500">
+                / One Time
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-6">
+              Clean operating system setup, initial configuration, and genuine activation package for Windows 10.
+            </p>
+          </div>
+          <button
+            onClick={() =>
+              addToCart({
+                id: "toolkit-win10",
+                name: "Official Windows 10 Installation",
+                price: 109.99,
+                period: "/One Time",
+              })
+            }
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
+          >
+            Add to cart
+          </button>
+        </div>
+
+        {/* Toolkit 10 (Official Windows 11 Installation) */}
+        <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <Sliders className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">
+              Official Windows 11 Installation
+            </h3>
+            <div className="text-2xl font-bold mb-4">
+              $139.99{" "}
+              <span className="text-xs font-normal text-gray-500">
+                / One Time
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-6">
+              Secure setup, compatibility checks, and fresh deployment of the official Windows 11 operating system.
+            </p>
+          </div>
+          <button
+            onClick={() =>
+              addToCart({
+                id: "toolkit-win11",
+                name: "Official Windows 11 Installation",
+                price: 139.99,
+                period: "/One Time",
+              })
+            }
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition"
+          >
+            Add to cart
+          </button>
+        </div>
+      </div>
+    </section>
 
       <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center mb-12">
@@ -1747,7 +1938,7 @@ const handleStoreSelect = (state: string) => {
                 </span>
               </div>
               <div className="text-2xl font-bold mb-4">
-                $99<span className="text-lg">99</span>
+                $99.99
               </div>
               <div className="flex items-center gap-1.5 text-xs text-gray-600 mb-6">
                 <svg
@@ -1808,7 +1999,7 @@ const handleStoreSelect = (state: string) => {
                 </span>
               </div>
               <div className="text-2xl font-bold mb-4">
-                $179<span className="text-lg">99</span>
+                $179.99
               </div>
               <div className="flex items-center gap-1.5 text-xs text-gray-600 mb-6">
                 <svg
@@ -1872,7 +2063,7 @@ const handleStoreSelect = (state: string) => {
                 />
               </div>
               <h3 className="font-bold text-base text-gray-900 mb-2 line-clamp-2">
-                Norton 360 Deluxe (5 Devices) - 1-Year Subscription
+                Norton 360 Deluxe (1 Device) - 1-Year Subscription
               </h3>
               <p className="text-xs text-gray-500 mb-3">
                 Includes Secure VPN, Dark Web Monitoring, & Cloud Backup.
@@ -1884,7 +2075,7 @@ const handleStoreSelect = (state: string) => {
                 </span>
               </div>
               <div className="text-2xl font-bold mb-4">
-                $29<span className="text-lg">99</span>{" "}
+                $39.99
                 <span className="text-xs font-normal text-gray-500">
                   / Year
                 </span>
@@ -1912,7 +2103,7 @@ const handleStoreSelect = (state: string) => {
                   addToCart({
                     id: "antivirus-norton",
                     name: "Norton 360 Deluxe (1-Year)",
-                    price: 29.99,
+                    price: 39.99,
                     period: "/Year",
                   })
                 }
@@ -1947,7 +2138,7 @@ const handleStoreSelect = (state: string) => {
                 </span>
               </div>
               <div className="text-2xl font-bold mb-4">
-                $19<span className="text-lg">99</span>{" "}
+                $44.99
                 <span className="text-xs font-normal text-gray-500">
                   / Year
                 </span>
@@ -1975,7 +2166,7 @@ const handleStoreSelect = (state: string) => {
                   addToCart({
                     id: "antivirus-mcafee",
                     name: "McAfee Total Protection (1-Year)",
-                    price: 19.99,
+                    price: 44.99,
                     period: "/Year",
                   })
                 }
@@ -2010,7 +2201,7 @@ const handleStoreSelect = (state: string) => {
                 </span>
               </div>
               <div className="text-2xl font-bold mb-4">
-                $39<span className="text-lg">99</span>{" "}
+                $59.99
                 <span className="text-xs font-normal text-gray-500">
                   / Year
                 </span>
@@ -2038,7 +2229,7 @@ const handleStoreSelect = (state: string) => {
                   addToCart({
                     id: "antivirus-webroot",
                     name: "Webroot SecureAnywhere (1-Year)",
-                    price: 39.99,
+                    price: 59.99,
                     period: "/Year",
                   })
                 }
@@ -2048,124 +2239,33 @@ const handleStoreSelect = (state: string) => {
               </button>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="text-left mb-12">
-          <div className="inline-block bg-emerald-100 text-emerald-800 font-semibold text-xs px-3 py-1 rounded-full mb-5">
-            PROFESSIONAL ASSISTANCE
-          </div>
-          <h2 className="text-3xl lg:text-5xl font-semibold mb-3">
-            Expert Support Services
-          </h2>
-          <p className="text-gray-600">
-            Get hands-on remote configuration and diagnostics handled by
-            certified technicians.
-          </p>
-        </div>
-
-        <div className="max-w-sm">
+          {/* Microtrends */}
           <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
             <div>
               <div className="w-full h-44 bg-gray-50 rounded-lg flex items-center justify-center mb-4 overflow-hidden border border-gray-100">
                 <img
-                  src="/ittech.webp"
-                  alt="One Time Technician Fees"
+                  src="/microtrends.jpg"
+                  alt="Microtrends Antivirus"
                   className="object-contain h-full"
                 />
               </div>
-              <h3 className="font-bold text-lg text-gray-900 mb-2">
-                One Time Technician Support & Deployment Fee
-              </h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Professional remote diagnostics, full software deployment,
-                secure environment setup, and troubleshooting executed by a
-                certified systems engineer. Fast resolution guaranteed for
-                custom workstation setups.
-              </p>
-              <div className="text-2xl font-bold mb-4">
-                $129<span className="text-lg">99</span>{" "}
-                <span className="text-xs font-normal text-gray-500">
-                  / One Time
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5 text-xs text-gray-600 mb-6">
-                <svg
-                  className="w-4 h-4 text-gray-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                  ></path>
-                </svg>
-                <span>Immediate Remote Service</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() =>
-                  addToCart({
-                    id: "tech-fee-one-time",
-                    name: "One Time Technician Support & Deployment Fee",
-                    price: 129.99,
-                    period: "/One Time",
-                  })
-                }
-                className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition text-center"
-              >
-                Add to cart
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="text-left mb-12">
-          <div className="inline-block bg-sky-100 text-sky-800 font-semibold text-xs px-3 py-1 rounded-full mb-5">
-            APPLE OPERATING SYSTEMS
-          </div>
-          <h2 className="text-3xl lg:text-5xl font-semibold mb-3">
-            Mac OS License & Activation Key
-          </h2>
-          <p className="text-gray-600">
-            Official activation package and deployment configuration for Apple
-            Mac hardware.
-          </p>
-        </div>
-
-        <div className="max-w-sm">
-          <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <div className="w-full h-44 bg-gray-50 rounded-lg flex items-center justify-center mb-4 overflow-hidden border border-gray-100">
-                <img
-                  src="/key.jpg"
-                  alt="Mac OS License Key"
-                  className="object-contain h-full"
-                />
-              </div>
-              <h3 className="font-bold text-lg text-gray-900 mb-2">
-                Mac OS License & Setup Toolkit
+              <h3 className="font-bold text-base text-gray-900 mb-2 line-clamp-2">
+                Trend Micro Antivirus (1 Device) - 1-Year Subscription
               </h3>
               <p className="text-xs text-gray-500 mb-3">
-                macOS [Digital Delivery] - Genuine Activation Key
+                Advanced AI-powered protection against web threats and ransomware.
               </p>
               <div className="flex items-center gap-1 text-xs text-amber-500 font-semibold mb-3">
                 <span>★★★★★</span>
                 <span className="text-gray-500 font-normal">
-                  (4,810 reviews)
+                  (7,500 reviews)
                 </span>
               </div>
               <div className="text-2xl font-bold mb-4">
-                $149<span className="text-lg">99</span>{" "}
+                $29.99
                 <span className="text-xs font-normal text-gray-500">
-                  / One Time
+                  / Year
                 </span>
               </div>
               <div className="flex items-center gap-1.5 text-xs text-gray-600 mb-6">
@@ -2189,10 +2289,134 @@ const handleStoreSelect = (state: string) => {
               <button
                 onClick={() =>
                   addToCart({
-                    id: "toolkit-macos",
-                    name: "Mac OS License & Setup Toolkit",
-                    price: 149.99,
-                    period: "/One Time",
+                    id: "antivirus-microtrends",
+                    name: "Trend Micro Antivirus (1-Year)",
+                    price: 29.99,
+                    period: "/Year",
+                  })
+                }
+                className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition text-center"
+              >
+                Add to cart
+              </button>
+            </div>
+          </div>
+
+          {/* MalwareBytes */}
+          <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+            <div>
+              <div className="w-full h-44 bg-gray-50 rounded-lg flex items-center justify-center mb-4 overflow-hidden border border-gray-100">
+                <img
+                  src="/malwarebytes.jpg"
+                  alt="MalwareBytes Premium"
+                  className="object-contain h-full"
+                />
+              </div>
+              <h3 className="font-bold text-base text-gray-900 mb-2 line-clamp-2">
+                Malwarebytes Premium (1 Device) - 1-Year Subscription
+              </h3>
+              <p className="text-xs text-gray-500 mb-3">
+                Proactive malware blocking, ransomware defense, and deep cleaning.
+              </p>
+              <div className="flex items-center gap-1 text-xs text-amber-500 font-semibold mb-3">
+                <span>★★★★★</span>
+                <span className="text-gray-500 font-normal">
+                  (14,200 reviews)
+                </span>
+              </div>
+              <div className="text-2xl font-bold mb-4">
+                $39.99
+                <span className="text-xs font-normal text-gray-500">
+                  / Year
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-gray-600 mb-6">
+                <svg
+                  className="w-4 h-4 text-gray-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                  ></path>
+                </svg>
+                <span>Digital delivery</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() =>
+                  addToCart({
+                    id: "antivirus-malwarebytes",
+                    name: "Malwarebytes Premium (1-Year)",
+                    price: 39.99,
+                    period: "/Year",
+                  })
+                }
+                className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition text-center"
+              >
+                Add to cart
+              </button>
+            </div>
+          </div>
+
+          {/* Avast */}
+          <div className="bg-white border rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+            <div>
+              <div className="w-full h-44 bg-gray-50 rounded-lg flex items-center justify-center mb-4 overflow-hidden border border-gray-100">
+                <img
+                  src="/advast.png"
+                  alt="Avast Premium Security"
+                  className="object-contain h-full"
+                />
+              </div>
+              <h3 className="font-bold text-base text-gray-900 mb-2 line-clamp-2">
+                Avast Premium Security (1 Device) - 1-Year Subscription
+              </h3>
+              <p className="text-xs text-gray-500 mb-3">
+                Advanced protection against viruses, ransomware, and hacker attacks.
+              </p>
+              <div className="flex items-center gap-1 text-xs text-amber-500 font-semibold mb-3">
+                <span>★★★★★</span>
+                <span className="text-gray-500 font-normal">
+                  (11,600 reviews)
+                </span>
+              </div>
+              <div className="text-2xl font-bold mb-4">
+                $34.99
+                <span className="text-xs font-normal text-gray-500">
+                  / Year
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-gray-600 mb-6">
+                <svg
+                  className="w-4 h-4 text-gray-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                  ></path>
+                </svg>
+                <span>Digital delivery</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() =>
+                  addToCart({
+                    id: "antivirus-avast",
+                    name: "Avast Premium Security (1-Year)",
+                    price: 34.99,
+                    period: "/Year",
                   })
                 }
                 className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2.5 rounded-lg text-sm shadow transition text-center"
@@ -2203,6 +2427,8 @@ const handleStoreSelect = (state: string) => {
           </div>
         </div>
       </section>
+
+      
 
       {/* Slide-out Cart Drawer */}
       {isCartOpen && (
