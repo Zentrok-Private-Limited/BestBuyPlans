@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useCart } from "@/context/CartContext";
 import {
   ShieldCheck,
   Wrench,
@@ -33,502 +34,12 @@ import {
   Activity,
 } from "lucide-react";
 
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  period: string;
-}
-
 export default function BestBuyPlansPage() {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSignInOpen, setIsSignInOpen] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [savedUserName, setSavedUserName] = useState("");
-  const [isStoreOpen, setIsStoreOpen] = useState(false);
-  const [selectedStore, setSelectedStore] = useState("");
-  const [userPhone, setUserPhone] = useState("");
-
-const usStates = [
-  "Alabama",
-  "Alaska",
-  "Arizona",
-  "Arkansas",
-  "California",
-  "Colorado",
-  "Connecticut",
-  "Delaware",
-  "Florida",
-  "Georgia",
-  "Hawaii",
-  "Idaho",
-  "Illinois",
-  "Indiana",
-  "Iowa",
-  "Kansas",
-  "Kentucky",
-  "Louisiana",
-  "Maine",
-  "Maryland",
-  "Massachusetts",
-  "Michigan",
-  "Minnesota",
-  "Mississippi",
-  "Missouri",
-  "Montana",
-  "Nebraska",
-  "Nevada",
-  "New Hampshire",
-  "New Jersey",
-  "New Mexico",
-  "New York",
-  "North Carolina",
-  "North Dakota",
-  "Ohio",
-  "Oklahoma",
-  "Oregon",
-  "Pennsylvania",
-  "Rhode Island",
-  "South Carolina",
-  "South Dakota",
-  "Tennessee",
-  "Texas",
-  "Utah",
-  "Vermont",
-  "Virginia",
-  "Washington",
-  "West Virginia",
-  "Wisconsin",
-  "Wyoming",
-];
-
-const handleStoreSelect = (state: string) => {
-  setSelectedStore(state);
-  setIsStoreOpen(false);
-};
-
-  const handleSignIn = () => {
-    if (!userName.trim() || !userEmail.trim()) {
-      return;
-    }
-
-    setSavedUserName(userName.trim());
-    setIsSignInOpen(false);
-  };
-
-  const addToCart = (item: CartItem) => {
-    setCart((prev) => [...prev, item]);
-    setIsCartOpen(true);
-  };
-
-  const removeFromCart = (index: number) => {
-    setCart((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const subtotal = cart.reduce((acc, item) => acc + item.price, 0);
+  // Cart is now shared via CartContext — no local cart state needed
+  const { addToCart } = useCart();
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans relative">
-      {/* Top Navigation Bar / Header */}
-      <header className="sticky top-0 z-40 w-full bg-[#0046BE] text-white">
-  {/* TOP HEADER */}
-  <div className="border-b border-blue-400/50">
-    <div className="h-[64px] sm:h-[72px] lg:h-[88px] px-3 sm:px-5 lg:px-8 xl:px-12 flex items-center gap-2 sm:gap-4 lg:gap-5">
-
-      {/* LOGO */}
-      <div className="flex-shrink-0 w-[58px] sm:w-[70px] lg:w-[80px]">
-        <div className="relative leading-[0.78] text-[18px] sm:text-[22px] lg:text-[27px] font-black tracking-[-1.5px]">
-          <div>BEST</div>
-          <div className="mt-0.5">BUY</div>
-          <span className="absolute left-[51px] sm:left-[61px] lg:left-[55px] bottom-0 w-[14px] sm:w-[17px] lg:w-[19px] h-[9px] sm:h-[10px] lg:h-[12px] bg-[#ffe000]">
-            <span className="absolute -left-[3px] top-[3px] w-[4px] h-[4px] rounded-full bg-[#0046BE]" />
-          </span>
-        </div>
-      </div>
-
-      {/* SEARCH */}
-      <div className="flex-1 mx-4 h-[38px] sm:h-[44px] lg:h-[50px] bg-white rounded-[6px] lg:rounded-[9px] overflow-hidden flex items-center min-w-0">
-        <input
-          type="text"
-          placeholder="Search Best Buy"
-          className="flex-1 min-w-0 h-full px-3 sm:px-4 text-[13px] sm:text-[14px] lg:text-[16px] text-gray-700 placeholder:text-gray-500 outline-none"
-        />
-        <button
-          type="button"
-          className="h-full w-[40px] sm:w-[48px] lg:w-[54px] flex items-center justify-center border-l border-gray-100 hover:bg-gray-50"
-        >
-          <Search className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-black" />
-        </button>
-      </div>
-
-      {/* STORE - DESKTOP */}
-      {/* STORE - DESKTOP */}
-<div className="relative hidden xl:flex items-center">
-  <button
-    type="button"
-    onClick={() => setIsStoreOpen((prev) => !prev)}
-    className="flex items-center gap-2 min-w-[110px] text-left"
-  >
-    <Store className="w-7 h-7 flex-shrink-0" />
-
-    <div className="text-[14px] leading-[1.15]">
-      <div>Select your store</div>
-      <div className="font-bold text-[16px]">
-        {selectedStore || "Choose state"}
-      </div>
-    </div>
-
-    <ChevronDown
-      className={`w-4 h-4 transition-transform ${
-        isStoreOpen ? "rotate-180" : ""
-      }`}
-    />
-  </button>
-
-  {/* STORE DROPDOWN */}
-  {isStoreOpen && (
-    <div className="absolute right-0 top-[calc(100%+14px)] z-[80] w-[250px] rounded-xl bg-white text-gray-900 shadow-2xl border border-gray-200 overflow-hidden">
-      <div className="px-4 py-3 border-b border-gray-200">
-        <p className="font-bold text-sm">Select your store</p>
-        <p className="text-xs text-gray-500 mt-0.5">
-          Choose your state
-        </p>
-      </div>
-
-      <div className="max-h-[320px] overflow-y-auto py-1">
-        {usStates.map((state) => (
-          <button
-            key={state}
-            type="button"
-            onClick={() => handleStoreSelect(state)}
-            className={`w-full px-4 py-2.5 text-left text-sm hover:bg-blue-50 transition ${
-              selectedStore === state
-                ? "bg-blue-50 text-[#0046BE] font-bold"
-                : "text-gray-700"
-            }`}
-          >
-            {state}
-          </button>
-        ))}
-      </div>
-    </div>
-  )}
-</div>
-
-      {/* ACCOUNT - DESKTOP */}
-      <button
-        type="button"
-        onClick={() => setIsSignInOpen(true)}
-        className="hidden lg:flex items-center gap-2 pl-3 xl:pl-4 border-l border-blue-300/60 min-w-[110px] xl:min-w-[125px]"
-      >
-        <UserCircle className="w-6 h-6 xl:w-7 xl:h-7" />
-        <div className="text-[13px] xl:text-[15px] leading-[1.15] text-left">
-          <div>Account</div>
-          <div className="font-bold text-[14px] xl:text-[16px]">
-            {savedUserName || "Sign in"}
-          </div>
-        </div>
-      </button>
-
-      {/* CART */}
-      <button
-        type="button"
-        onClick={() => setIsCartOpen(true)}
-        className="relative flex items-center justify-center pl-2 sm:pl-3 lg:pl-4 xl:pl-5 border-l border-blue-300/60 h-9 sm:h-10 flex-shrink-0"
-      >
-        <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
-        {cart.length > 0 && (
-          <span className="absolute -top-2 -right-1 bg-[#ffe000] text-[#0046BE] font-bold text-[10px] sm:text-xs w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center">
-            {cart.length}
-          </span>
-        )}
-      </button>
-
-      {/* MOBILE HAMBURGER */}
-      <button
-        type="button"
-        aria-label="Toggle menu"
-        onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-        className="md:hidden flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-md hover:bg-blue-700 transition"
-      >
-        {isMobileMenuOpen ? (
-          <X className="w-6 h-6" />
-        ) : (
-          <Menu className="w-6 h-6" />
-        )}
-      </button>
-    </div>
-  </div>
-
-  {/* DESKTOP NAV */}
-  <nav className="hidden md:flex h-[64px] lg:h-[76px] border-b border-blue-300/70 items-center px-5 lg:px-8 xl:px-12">
-    <div className="flex items-center gap-3">
-      <button className="h-[40px] px-5 rounded-full border border-blue-300/80 hover:bg-blue-600 flex items-center gap-2 text-[12px] lg:text-[14px] font-semibold whitespace-nowrap">
-        Shop
-        <ChevronDown className="w-4 h-4" />
-      </button>
-
-      <button className="h-[40px] px-5 rounded-full border border-blue-300/80 hover:bg-blue-600 flex items-center gap-2 text-[12px] lg:text-[14px] font-semibold whitespace-nowrap">
-        Deals
-        <ChevronDown className="w-4 h-4" />
-      </button>
-
-      <button className="h-[40px] px-5 rounded-full border border-blue-300/80 hover:bg-blue-600 flex items-center gap-2 text-[12px] lg:text-[14px] font-semibold whitespace-nowrap">
-        Support & Services
-        <ChevronDown className="w-4 h-4" />
-      </button>
-
-      <button className="h-[40px] px-5 rounded-full border border-blue-300/80 hover:bg-blue-600 flex items-center gap-2 text-[12px] lg:text-[14px] font-semibold whitespace-nowrap">
-        Discover
-        <ChevronDown className="w-4 h-4" />
-      </button>
-    </div>
-
-    <div className="ml-auto flex items-center gap-4 lg:gap-6 pl-6 lg:pl-10 text-[12px] lg:text-[14px] whitespace-nowrap">
-      <button type="button">Fall Football</button>
-      <button type="button">Top Deals</button>
-      <button type="button">Deal of the Day</button>
-      <button type="button">Gift Ideas</button>
-      <button type="button">My Best Buy Memberships</button>
-      <button type="button">Credit Cards</button>
-      <button type="button">Gift Cards</button>
-
-      <button type="button" className="flex items-center gap-1">
-        More
-        <ChevronDown className="w-4 h-4" />
-      </button>
-    </div>
-  </nav>
-
-  {/* MOBILE MENU */}
-  {isMobileMenuOpen && (
-    <div className="md:hidden bg-[#003b9f] border-t border-blue-400/50 shadow-xl">
-      <div className="px-4 py-4">
-
-       {/* MOBILE STORE */}
-<div className="relative">
-  <button
-    type="button"
-    onClick={() => setIsStoreOpen((prev) => !prev)}
-    className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-700 text-left"
-  >
-    <span className="flex items-center gap-3">
-      <Store className="w-5 h-5" />
-
-      <span>
-        Select your store:{" "}
-        <strong>
-          {selectedStore || "Choose state"}
-        </strong>
-      </span>
-    </span>
-
-    <ChevronDown
-      className={`w-5 h-5 transition-transform ${
-        isStoreOpen ? "rotate-180" : ""
-      }`}
-    />
-  </button>
-
-  {/* MOBILE STORE DROPDOWN */}
-  {isStoreOpen && (
-    <div className="mx-4 mb-2 rounded-lg bg-white text-gray-900 overflow-hidden shadow-lg">
-      <div className="max-h-[280px] overflow-y-auto py-1">
-        {usStates.map((state) => (
-          <button
-            key={state}
-            type="button"
-            onClick={() => handleStoreSelect(state)}
-            className={`w-full px-4 py-2.5 text-left text-sm hover:bg-blue-50 transition ${
-              selectedStore === state
-                ? "bg-blue-50 text-[#0046BE] font-bold"
-                : "text-gray-700"
-            }`}
-          >
-            {state}
-          </button>
-        ))}
-      </div>
-    </div>
-  )}
-</div>
-
-        {/* MOBILE ACCOUNT */}
-        <button
-          type="button"
-          onClick={() => setIsSignInOpen(true)}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-700 text-left"
-        >
-          <UserCircle className="w-5 h-5" />
-          <span>
-            Account{" "}
-            <strong>{savedUserName || "Sign in"}</strong>
-          </span>
-        </button>
-
-        <div className="h-px bg-blue-400/40 my-2" />
-
-        <button
-          type="button"
-          className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-700"
-        >
-          <span>Shop</span>
-          <ChevronDown className="w-5 h-5" />
-        </button>
-
-        <button
-          type="button"
-          className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-700"
-        >
-          <span>Deals</span>
-          <ChevronDown className="w-5 h-5" />
-        </button>
-
-        <button
-          type="button"
-          className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-700"
-        >
-          <span>Support & Services</span>
-          <ChevronDown className="w-5 h-5" />
-        </button>
-
-        <button
-          type="button"
-          className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-blue-700"
-        >
-          <span>Discover</span>
-          <ChevronDown className="w-5 h-5" />
-        </button>
-
-        <div className="h-px bg-blue-400/40 my-2" />
-
-        <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
-          Fall Football
-        </button>
-
-        <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
-          Top Deals
-        </button>
-
-        <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
-          Deal of the Day
-        </button>
-
-        <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
-          Gift Ideas
-        </button>
-
-        <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
-          My Best Buy Memberships
-        </button>
-
-        <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
-          Credit Cards
-        </button>
-
-        <button type="button" className="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-700">
-          Gift Cards
-        </button>
-      </div>
-    </div>
-  )}
-
-  {/* SIGN IN POPUP */}
-  {isSignInOpen && (
-  <div
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 px-4"
-    onClick={() => setIsSignInOpen(false)}
-  >
-    <div
-      className="w-full max-w-[400px] rounded-2xl bg-white p-6 sm:p-7 shadow-2xl text-gray-900"
-      onClick={(e) => e.stopPropagation()}
-    >
-      {/* POPUP HEADER */}
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-            Sign in
-          </h2>
-          <p className="mt-1 text-sm text-gray-500">
-            Enter your details to continue.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setIsSignInOpen(false)}
-          className="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition"
-        >
-          <X className="w-5 h-5" />
-        </button>
-      </div>
-
-      {/* NAME */}
-      <div className="mb-4">
-        <label className="mb-1.5 block text-sm font-semibold text-gray-700">
-          Name
-        </label>
-
-        <input
-          type="text"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-          placeholder="Enter your name"
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[#0046BE] focus:ring-2 focus:ring-blue-100"
-        />
-      </div>
-
-      {/* EMAIL */}
-      <div className="mb-4">
-        <label className="mb-1.5 block text-sm font-semibold text-gray-700">
-          Email ID
-        </label>
-
-        <input
-          type="email"
-          value={userEmail}
-          onChange={(e) => setUserEmail(e.target.value)}
-          placeholder="Enter your email"
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[#0046BE] focus:ring-2 focus:ring-blue-100"
-        />
-      </div>
-
-      {/* PHONE NUMBER */}
-      <div className="mb-6">
-        <label className="mb-1.5 block text-sm font-semibold text-gray-700">
-          Phone Number
-        </label>
-
-        <input
-          type="tel"
-          value={userPhone}
-          onChange={(e) => setUserPhone(e.target.value)}
-          placeholder="Enter your phone number"
-          maxLength={15}
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[#0046BE] focus:ring-2 focus:ring-blue-100"
-        />
-      </div>
-
-      {/* CONTINUE */}
-      <button
-        type="button"
-        onClick={handleSignIn}
-        disabled={
-          !userName.trim() ||
-          !userEmail.trim() ||
-          !userPhone.trim()
-        }
-        className="w-full rounded-lg bg-[#0046BE] px-4 py-3 font-bold text-white transition hover:bg-[#003b9f] disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        Continue
-      </button>
-    </div>
-  </div>
-)}
-</header>
 
       {/* --- SCREENSHOT 148: Hero Section & My Best Buy Total Intro --- */}
       <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-teal-600 text-white px-6">
@@ -1098,95 +609,244 @@ const handleStoreSelect = (state: string) => {
 
       {/* --- SCREENSHOT 155: Don't miss out on exclusive deals --- */}
       <section className="max-w-7xl mx-auto px-6 mb-20">
-        <div className="flex justify-between items-end mb-8">
-          <div>
-            <div className="flex items-center space-x-3 mb-6">
-              <span className="text-5xl">🏷️</span>
-              <h2 className="text-3xl lg:text-5xl font-semibold">
-                Buy My Best Plus Total
-              </h2>
-            </div>
-            <h2 className="text-2xl font-semibold">
-              Don&apos;t miss out on exclusive deals.
-            </h2>
-            <p className="text-gray-600 text-sm mt-1">
-              Unlock even more exclusive member deals when you become a My Best
-              Buy Plus™ or My Best Buy Total™ member.
-            </p>
-          </div>
-          <a
-            href="#"
-            className="text-blue-600 font-semibold text-sm hidden md:block hover:underline"
-          >
-            Discover more exclusive deals
-          </a>
+  <div className="flex justify-between items-end mb-8">
+    <div>
+      <div className="flex items-center space-x-3 mb-6">
+        <span className="text-5xl">🏷️</span>
+        <h2 className="text-3xl lg:text-5xl font-semibold">
+          Buy My Best Plus Total
+        </h2>
+      </div>
+      <h2 className="text-2xl font-semibold">
+        Don&apos;t miss out on exclusive deals.
+      </h2>
+      <p className="text-gray-600 text-sm mt-1">
+        Unlock even more exclusive member deals when you become a My Best
+        Buy Plus™ or My Best Buy Total™ member.
+      </p>
+    </div>
+    <a
+      href="#"
+      className="text-blue-600 font-semibold text-sm hidden md:block hover:underline"
+    >
+      Discover more exclusive deals
+    </a>
+  </div>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {/* Product 1: Turtle Beach Headset */}
+    <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
+      <div>
+        <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
+          <img src="/product1.avif" className="" alt="" />
         </div>
+        <p className="text-sm text-gray-700 mb-3 font-medium">
+          Turtle Beach - Stealth 700 Gen 3 Wireless Over-Ear Gaming
+          Headset for XBOX Series X/S, XBOX One, PC,...
+        </p>
+        <div className="text-2xl font-bold mb-1">$159.99</div>
+        <p className="text-xs text-green-600 font-semibold mb-2">
+          Save $40{" "}
+          <span className="text-gray-400 font-normal">
+            Comp. Value: $199.99
+          </span>
+        </p>
+        <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded font-semibold">
+          + 2 offers for you
+        </span>
+      </div>
+      <button
+        onClick={() =>
+          addToCart({
+            id: "turtle-beach-stealth-700",
+            name: "Turtle Beach - Stealth 700 Gen 3 Wireless Gaming Headset",
+            price: 159.99,
+            period: "/One Time",
+          })
+        }
+        className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 font-bold py-2 rounded-lg text-sm transition"
+      >
+        Add to cart
+      </button>
+    </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
-            <div>
-              <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
-                <img src="/product1.avif" className="" alt="" />
-              </div>
-              <p className="text-sm text-gray-700 mb-3 font-medium">
-                Turtle Beach - Stealth 700 Gen 3 Wireless Over-Ear Gaming
-                Headset for XBOX Series X/S, XBOX One, PC,...
-              </p>
-              <div className="text-2xl font-bold mb-1">$159.99</div>
-              <p className="text-xs text-green-600 font-semibold mb-2">
-                Save $40{" "}
-                <span className="text-gray-400 font-normal">
-                  Comp. Value: $199.99
-                </span>
-              </p>
-              <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded font-semibold">
-                + 2 offers for you
-              </span>
-            </div>
-            <button className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 font-bold py-2 rounded-lg text-sm transition">
-              Add to cart
-            </button>
-          </div>
-
-          <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
-            <div>
-              <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
-                <img src="/product2.webp" className="" alt="" />
-              </div>
-              <p className="text-sm text-gray-700 mb-3 font-medium">
-                Mac mini Desktop Apple M4 chip with 16GB Memory and 256GB SSD -
-                Silver
-              </p>
-              <div className="text-2xl font-bold mb-1">$899.00</div>
-              <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded font-semibold">
-                + 7 offers for you
-              </span>
-            </div>
-            <button className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 font-bold py-2 rounded-lg text-sm transition">
-              Add to cart
-            </button>
-          </div>
-
-          <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
-            <div>
-              <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
-                <img src="/product3.avif" className="" alt="" />
-              </div>
-              <p className="text-sm text-gray-700 mb-3 font-medium">
-                Mac mini Desktop Apple M4 chip with 16GB Memory and 512GB SSD -
-                Silver
-              </p>
-              <div className="text-2xl font-bold mb-1">$1,099.00</div>
-              <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded font-semibold">
-                + 7 offers for you
-              </span>
-            </div>
-            <button className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 font-bold py-2 rounded-lg text-sm transition">
-              Add to cart
-            </button>
-          </div>
+    {/* Product 2: Mac mini 256GB */}
+    <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
+      <div>
+        <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
+          <img src="/product2.webp" className="" alt="" />
         </div>
-      </section>
+        <p className="text-sm text-gray-700 mb-3 font-medium">
+          Mac mini Desktop Apple M4 chip with 16GB Memory and 256GB SSD -
+          Silver
+        </p>
+        <div className="text-2xl font-bold mb-1">$899.00</div>
+        <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded font-semibold">
+          + 7 offers for you
+        </span>
+      </div>
+      <button
+        onClick={() =>
+          addToCart({
+            id: "mac-mini-256gb",
+            name: "Mac mini Desktop Apple M4 (16GB/256GB SSD)",
+            price: 899.00,
+            period: "/One Time",
+          })
+        }
+        className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 font-bold py-2 rounded-lg text-sm transition"
+      >
+        Add to cart
+      </button>
+    </div>
+
+    {/* Product 3: Mac mini 512GB */}
+    <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
+      <div>
+        <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
+          <img src="/product3.avif" className="" alt="" />
+        </div>
+        <p className="text-sm text-gray-700 mb-3 font-medium">
+          Mac mini Desktop Apple M4 chip with 16GB Memory and 512GB SSD -
+          Silver
+        </p>
+        <div className="text-2xl font-bold mb-1">$1,099.00</div>
+        <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded font-semibold">
+          + 7 offers for you
+        </span>
+      </div>
+      <button
+        onClick={() =>
+          addToCart({
+            id: "mac-mini-512gb",
+            name: "Mac mini Desktop Apple M4 (16GB/512GB SSD)",
+            price: 1099.00,
+            period: "/One Time",
+          })
+        }
+        className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 font-bold py-2 rounded-lg text-sm transition"
+      >
+        Add to cart
+      </button>
+    </div>
+
+    {/* Printer 1: HP */}
+    <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
+      <div>
+        <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
+          <img src="/hp.jpg" className="" alt="" />
+        </div>
+        <p className="text-sm text-gray-700 mb-3 font-medium">
+          HP DeskJet Ink Advantage 2989 Wireless All-in-One Color Printer
+        </p>
+        <div className="text-2xl font-bold mb-1">$99.00</div>
+        <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded font-semibold">
+          + 3 offers for you
+        </span>
+      </div>
+      <button
+        onClick={() =>
+          addToCart({
+            id: "hp-deskjet-2989",
+            name: "HP DeskJet Ink Advantage 2989 Printer",
+            price: 99.00,
+            period: "/One Time",
+          })
+        }
+        className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 font-bold py-2 rounded-lg text-sm transition"
+      >
+        Add to cart
+      </button>
+    </div>
+
+    {/* Printer 2: Canon */}
+    <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
+      <div>
+        <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
+          <img src="/canon.jpg" className="" alt="" />
+        </div>
+        <p className="text-sm text-gray-700 mb-3 font-medium">
+          Canon Pixma G3010 Wireless All-in-One Ink Tank Printer
+        </p>
+        <div className="text-2xl font-bold mb-1">$129.99</div>
+        <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded font-semibold">
+          + 5 offers for you
+        </span>
+      </div>
+      <button
+        onClick={() =>
+          addToCart({
+            id: "canon-pixma-g3010",
+            name: "Canon Pixma G3010 Ink Tank Printer",
+            price: 129.99,
+            period: "/One Time",
+          })
+        }
+        className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 font-bold py-2 rounded-lg text-sm transition"
+      >
+        Add to cart
+      </button>
+    </div>
+
+    {/* Printer 3: Brother */}
+    <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
+      <div>
+        <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
+          <img src="/brother.jpg" className="" alt="" />
+        </div>
+        <p className="text-sm text-gray-700 mb-3 font-medium">
+          Brother Work Smart MFC-J1410DW Wireless Color Inkjet Printer
+        </p>
+        <div className="text-2xl font-bold mb-1">$139.99</div>
+        <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded font-semibold">
+          + 4 offers for you
+        </span>
+      </div>
+      <button
+        onClick={() =>
+          addToCart({
+            id: "brother-mfc-j1410dw",
+            name: "Brother Work Smart MFC-J1410DW Printer",
+            price: 139.99,
+            period: "/One Time",
+          })
+        }
+        className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 font-bold py-2 rounded-lg text-sm transition"
+      >
+        Add to cart
+      </button>
+    </div>
+
+    {/* Printer 4: Epson */}
+    <div className="border rounded-xl p-6 bg-white shadow-sm flex flex-col justify-between">
+      <div>
+        <div className="h-60 flex items-center justify-center mb-4 bg-gray-50 rounded-lg">
+          <img src="/epson.jpg" className="" alt="" />
+        </div>
+        <p className="text-sm text-gray-700 mb-3 font-medium">
+          Epson Expression Home XP-4200 Wireless Color Inkjet Printer
+        </p>
+        <div className="text-2xl font-bold mb-1">$119.99</div>
+        <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded font-semibold">
+          + 3 offers for you
+        </span>
+      </div>
+      <button
+        onClick={() =>
+          addToCart({
+            id: "epson-xp-4200",
+            name: "Epson Expression Home XP-4200 Printer",
+            price: 119.99,
+            period: "/One Time",
+          })
+        }
+        className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 font-bold py-2 rounded-lg text-sm transition"
+      >
+        Add to cart
+      </button>
+    </div>
+  </div>
+</section>
 
       {/* --- SCREENSHOTS 156 & 157: Product Protection & Popular Services --- */}
       <section className="bg-gradient-to-r from-blue-900 to-teal-700 text-white py-16 px-6">
@@ -2428,98 +2088,6 @@ const handleStoreSelect = (state: string) => {
         </div>
       </section>
 
-      
-
-      {/* Slide-out Cart Drawer */}
-      {isCartOpen && (
-        <div className="fixed inset-0 z-50 overflow-hidden">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/50 transition-opacity"
-            onClick={() => setIsCartOpen(false)}
-          />
-
-          <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
-            <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col">
-              {/* Cart Header */}
-              <div className="flex items-center justify-between px-6 py-4 bg-blue-900 text-white">
-                <div className="flex items-center space-x-2">
-                  <ShoppingCart className="w-5 h-5 text-yellow-400" />
-                  <h2 className="font-bold text-lg">
-                    Your Cart ({cart.length})
-                  </h2>
-                </div>
-                <button
-                  onClick={() => setIsCartOpen(false)}
-                  className="text-gray-300 hover:text-white p-1 rounded-full transition"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-
-              {/* Cart Items List */}
-              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
-                {cart.length === 0 ? (
-                  <div className="text-center py-20 text-gray-500">
-                    <ShoppingCart className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                    <p className="font-medium text-lg">Your cart is empty</p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      Add memberships or toolkits to get started.
-                    </p>
-                  </div>
-                ) : (
-                  cart.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-center bg-gray-50 border rounded-xl p-4 shadow-sm"
-                    >
-                      <div className="pr-4">
-                        <h4 className="font-bold text-sm text-gray-900">
-                          {item.name}
-                        </h4>
-                        <p className="text-xs text-blue-600 font-semibold mt-1">
-                          ${item.price.toFixed(2)}{" "}
-                          <span className="text-gray-400 font-normal">
-                            {item.period}
-                          </span>
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => removeFromCart(index)}
-                        className="text-red-500 hover:text-red-700 p-2 rounded-lg transition"
-                        title="Remove item"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              {/* Cart Footer / Total */}
-              {cart.length > 0 && (
-                <div className="border-t bg-gray-50 px-6 py-6 space-y-4">
-                  <div className="flex justify-between items-center text-lg font-bold text-gray-900">
-                    <span>Subtotal:</span>
-                    <span className="text-blue-900">
-                      ${subtotal.toFixed(2)}
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-500">
-                    Taxes and recurring fees calculated at checkout.
-                  </p>
-                  <button
-                    onClick={() => alert("Proceeding to secure checkout...")}
-                    className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-extrabold py-3 rounded-xl shadow-md transition"
-                  >
-                    Checkout Now
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
