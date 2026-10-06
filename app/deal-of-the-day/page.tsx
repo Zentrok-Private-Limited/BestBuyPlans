@@ -13,8 +13,8 @@ export default function DealOfTheDay() {
       category: "Antivirus & Security",
       image: "/webroot.avif",
       oneTimePrice: 49.99,
-      fiveYearPrice: 129.99,
-      lifetimePrice: 199.99,
+      fiveYearPrice: 219.99,
+      lifetimePrice: 299.99,
       savings5Year: "Save 55% vs Monthly/Annual renewal",
       savingsLifetime: "Best Value - Never pay again",
       badge: "Top Protection"
@@ -37,8 +37,8 @@ export default function DealOfTheDay() {
       category: "Network Security",
       image: "/ip.webp",
       oneTimePrice: 39.99,
-      fiveYearPrice: 119.99,
-      lifetimePrice: 179.99,
+      fiveYearPrice: 799.99,
+      lifetimePrice: 999.99,
       savings5Year: "Static IP Guaranteed",
       savingsLifetime: "Absolute Privacy Forever",
       badge: "High Demand"
