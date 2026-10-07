@@ -20,6 +20,18 @@ export default function DealOfTheDay() {
       badge: "Top Protection"
     },
     {
+      id: "webroot-family-pack",
+      name: "Webroot Total Protection Family Pack (Up to 10 Devices)",
+      category: "Family Security",
+      image: "/webroot.avif",
+      oneTimePrice: 149.99,
+      fiveYearPrice: 349.99,
+      lifetimePrice: 599.99,
+      savings5Year: "Save 65% for 10 Devices",
+      savingsLifetime: "Ultimate Multi-Device Family Coverage",
+      badge: "Family Favorite"
+    },
+    {
       id: "office-365",
       name: "Microsoft Office 365 Family Subscription",
       category: "Software Toolkits",
@@ -37,12 +49,73 @@ export default function DealOfTheDay() {
       category: "Network Security",
       image: "/ip.webp",
       oneTimePrice: 39.99,
-      fiveYearPrice: 799.99,
-      lifetimePrice: 999.99,
+      fiveYearPrice: 999.99,
+      lifetimePrice: 1899.99,
       savings5Year: "Static IP Guaranteed",
       savingsLifetime: "Absolute Privacy Forever",
       badge: "High Demand"
     },
+    // New 1-Year Antivirus Plans integrated into deals
+    {
+      id: "antivirus-norton",
+      name: "Norton 360 Deluxe (1 Device) - 1-Year Subscription",
+      category: "Cybersecurity Suites",
+      image: "/norton360.jpg",
+      oneTimePrice: 39.99,
+      fiveYearPrice: 169.99,
+      lifetimePrice: 249.99,
+      savings5Year: "Includes Secure VPN & Cloud Backup",
+      savingsLifetime: "1-Year Plan Standard Rate",
+      badge: "24k+ Reviews"
+    },
+    {
+      id: "antivirus-mcafee",
+      name: "McAfee Total Protection (1 Device) - 1-Year Subscription",
+      category: "Cybersecurity Suites",
+      image: "/mcafee.jpg",
+      oneTimePrice: 44.99,
+      fiveYearPrice: 189.99,
+      lifetimePrice: 279.99,
+      savings5Year: "Award-winning Antivirus & Firewall",
+      savingsLifetime: "1-Year Plan Standard Rate",
+      badge: "18k+ Reviews"
+    },
+    {
+      id: "antivirus-microtrends",
+      name: "Trend Micro Antivirus (1 Device) - 1-Year Subscription",
+      category: "Cybersecurity Suites",
+      image: "/microtrends.jpg",
+      oneTimePrice: 29.99,
+      fiveYearPrice: 129.99,
+      lifetimePrice: 199.99,
+      savings5Year: "AI-powered Ransomware Defense",
+      savingsLifetime: "1-Year Plan Standard Rate",
+      badge: "Popular"
+    },
+    {
+      id: "antivirus-malwarebytes",
+      name: "Malwarebytes Premium (1 Device) - 1-Year Subscription",
+      category: "Cybersecurity Suites",
+      image: "/malwarebytes.jpg",
+      oneTimePrice: 39.99,
+      fiveYearPrice: 169.99,
+      lifetimePrice: 249.99,
+      savings5Year: "Proactive Malware Blocking",
+      savingsLifetime: "1-Year Plan Standard Rate",
+      badge: "Top Rated"
+    },
+    {
+      id: "antivirus-avast",
+      name: "Avast Premium Security (1 Device) - 1-Year Subscription",
+      category: "Cybersecurity Suites",
+      image: "/advast.png",
+      oneTimePrice: 34.99,
+      fiveYearPrice: 149.99,
+      lifetimePrice: 229.99,
+      savings5Year: "Advanced Hacker Protection",
+      savingsLifetime: "1-Year Plan Standard Rate",
+      badge: "Reliable"
+    }
   ];
 
   const getPricingInfo = (item: typeof deals[0]) => {
@@ -55,7 +128,6 @@ export default function DealOfTheDay() {
     }
   };
 
-  // Use shared CartContext so items appear in the header cart
   const handleAddToCart = (item: typeof deals[0], pricing: ReturnType<typeof getPricingInfo>) => {
     addToCart({
       id: `${item.id}-${billingCycle}`,
@@ -112,7 +184,7 @@ export default function DealOfTheDay() {
           </div>
         </div>
 
-        {/* Deals Grid */}
+        {/* Unified Deals Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {deals.map((item) => {
             const pricing = getPricingInfo(item);
@@ -132,7 +204,7 @@ export default function DealOfTheDay() {
                     {item.category}
                   </span>
 
-                  <div className="h-52 flex items-center justify-center my-4 bg-gray-50 rounded-xl group-hover:scale-105 transition-transform duration-300">
+                  <div className="h-52 flex items-center justify-center my-4 bg-gray-50 rounded-xl group-hover:scale-105 transition-transform duration-300 border border-gray-100">
                     <img src={item.image} alt={item.name} className="max-h-44 object-contain" />
                   </div>
 
